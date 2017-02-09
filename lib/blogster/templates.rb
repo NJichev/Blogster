@@ -40,7 +40,7 @@ module Blogster
     end
 
     def name
-      @suffixless_name ||= @name.delete('.md')
+      @suffixless_name ||= @name.gsub('.md', '')
     end
 
     def ==(other)

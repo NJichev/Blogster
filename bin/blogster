@@ -13,7 +13,9 @@ if command == 'run'
     exit
   end
 
-  sub_directories = Dir['*/'].map { |file| File.join(user_path, file) }
+  sub_directories = Dir['*/']
+    .map { |file| File.join(user_path, file) }
+    .select { |path| path.include?('_') }
   parsed_files = Blogster::TemplatesParser.new(sub_directories)
   templates = parsed_files.to_templates
 
@@ -73,7 +75,7 @@ elsif command == 'generate'
   puts 'Finished.'
 elsif command == 'new'
 
-  project_name = ARGV.second
+  project_name = ARGV[1]
   root = File.dirname(__dir__)
   template_path = File.join(root, 'template_folder', '.')
 
