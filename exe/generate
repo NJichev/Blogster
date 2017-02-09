@@ -1,0 +1,41 @@
+#!/usr/bin/env ruby
+# Usage:
+# `blogster generate about me`
+# will create a markdown file in `./_about/me.md`
+
+require 'fileutils'
+
+user_path = ENV['PWD']
+page, template_name, _ = ARGV
+
+unless File.exists?("#{user_path}/.blogster")
+  puts "You need to be in a blogster file structure."
+  puts "Run the new command first."
+  exit
+end
+
+if ARGV.size < 2
+  puts "You need to supply two arguments - a page and a template."
+  exit
+end
+
+template_path = File.join(user_path, "_#{page.downcase}")
+template = File.join(template_path.downcase, "#{template_name}.md".downcase)
+
+puts "Creating #{template_path} folder."
+FileUtils::mkdir_p template_path
+
+puts "Generating markdown file: #{template}"
+File.open(template, 'w') do |file|
+  time = Time.now.strftime("%d/%m/%Y at %I:%M%p")
+
+  puts "Published on #{time}"
+
+  file.puts "# #{page.capitalize}"
+  file.puts ""
+  file.puts "## #{template_name.capitalize}"
+  file.puts ""
+  file.puts "*published on #{time}*"
+end
+
+puts "Finished."

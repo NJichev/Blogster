@@ -1,0 +1,24 @@
+#!/usr/bin/env ruby
+require 'fileutils'
+user_path = ENV['PWD']
+project_name = ARGV.first
+root = File.dirname(__dir__)
+template_path = File.join(root, 'template_folder/.')
+
+if ARGV.size < 1
+  puts "You must run new command with a file argument."
+  puts "In which the project will be generated."
+  exit
+end
+
+project_path = File.join(user_path, project_name)
+
+puts "Creating new blogster project..."
+
+puts "Generating project's path."
+FileUtils::mkdir_p(project_path)
+
+puts "Generating project templates."
+FileUtils::cp_r(template_path, project_path)
+
+puts "Finished."
