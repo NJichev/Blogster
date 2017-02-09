@@ -1,8 +1,0 @@
-#!/usr/bin/env ruby
-
-require 'blogster'
-
-sub_directories = Dir['*/']
-parsed_files = Blogster::DirectoryParser.new(sub_directories)
-Blogster.create(parsed_files)
-Blogster.run!

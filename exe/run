@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+require_relative '../lib/blogster.rb'
+
+user_path = ENV['PWD']
+sub_directories = Dir['*/'].map { |file| File.join(user_path, file) }
+parsed_files = Blogster::TemplatesParser.new(sub_directories)
+templates = parsed_files.to_templates
+
+Blogster.create(templates)
+Blogster.run!

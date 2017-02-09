@@ -1,11 +1,46 @@
 module Blogster
-  # Templates.new(templates)
   class Templates
    attr_reader :templates
 
-    def initialize(templates)
+    def initialize(templates = {})
       @templates = templates
     end
-    #_about
-    # { 'about' => [...templates]}
+
+    def each(page, &block)
+      templates[page].each(&block)
+    end
+
+    def [](page)
+      templates[page]
+    end
+
+    def []=(page, page_templates = [])
+      templates[page] = page_templates
+    end
+
+    def pages
+      templates.keys
+    end
+  end
+
+  class Template
+    attr_reader :path
+
+    def initialize(path, name)
+      @path = path
+      @name = name
+    end
+
+    def file
+      File.read(fullpath)
+    end
+
+    def fullpath
+      File.join(path, @name)
+    end
+
+    def name
+      @suffixless_name ||= @name.gsub('.md', '')
+    end
+  end
 end

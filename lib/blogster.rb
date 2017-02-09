@@ -1,7 +1,9 @@
 require 'sinatra/base'
 require 'rdiscount'
+
 require_relative 'blogster/version'
-require_relative 'blogster/directory_parser'
+require_relative 'blogster/templates'
+require_relative 'blogster/templates_parser'
 require_relative 'blogster/router'
 require_relative 'blogster/application_controller'
 
@@ -15,7 +17,7 @@ module Blogster
     end
 
     def pages
-      @pages ||= @templates.keys
+      @pages ||= @templates.pages
     end
 
     def create_page(page)
@@ -26,31 +28,24 @@ module Blogster
     end
 
     def create_page_templates(page)
-      templates[page].each do |template_path|
-        template_name = parse_template_name(template_path)
+      p page
+      templates.each(page) do |template|
         Class.new(controller) do
-          get "/#{page}/#{template_name}" do
-            markdown File.read(template_path)
+          get "/#{page}/#{template.name}" do
+            markdown template.file
           end
         end
       end
     end
 
-    private
-
-    def parse_template_name(template_path)
-      template_path.split('/').last.gsub('.md', '')
+    def run!
+      Router.run!
     end
+
+    private
 
     def controller
       ApplicationController
     end
   end
 end
-
-templates = {
-  'about' => %w[/home/njichev/test_dir/_about/me.md /home/njichev/test_dir/_about/introduction.md]
-}
-
-Blogster.create(templates)
-Router.run!
