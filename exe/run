@@ -3,6 +3,12 @@
 require_relative '../lib/blogster.rb'
 
 user_path = ENV['PWD']
+
+unless File.exists?("#{user_path}/.blogster")
+  puts "You need to be inside a project root directory."
+  exit
+end
+
 sub_directories = Dir['*/'].map { |file| File.join(user_path, file) }
 parsed_files = Blogster::TemplatesParser.new(sub_directories)
 templates = parsed_files.to_templates
