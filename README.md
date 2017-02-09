@@ -1,28 +1,37 @@
 # Blogster
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/blogster`. To experiment with that code, run `bin/console` for an interactive prompt.
+Welcome to Blogster!
 
-TODO: Delete this and the text above, and describe your gem
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'blogster'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
+Install it yourself as:
 
     $ gem install blogster
 
 ## Usage
 
-TODO: Write usage instructions here
+Creating a new app with a name `app_name`.
+
+    $ blogster new app_name
+
+This will create a new skeleton for our new application.
+Including styles and layouts.
+
+After you enter the new app.
+
+    $ cd app_name
+
+You can generate posts with
+
+    $ blogster generate Post Vim-Usage
+
+And then you can run the project with
+
+    $ blogster run
+
+Bear in mind that in order to use `run` or `generate`, you have
+to be inside a blogster root dir.
 
 ## Development
 
@@ -32,7 +41,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/blogster. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/njichev/blogster. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 
 ## License
