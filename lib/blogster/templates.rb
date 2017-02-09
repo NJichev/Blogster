@@ -1,6 +1,6 @@
 module Blogster
   class Templates
-   attr_reader :templates
+    attr_reader :templates
 
     def initialize(templates = {})
       @templates = templates
@@ -40,7 +40,12 @@ module Blogster
     end
 
     def name
-      @suffixless_name ||= @name.gsub('.md', '')
+      @suffixless_name ||= @name.delete('.md')
+    end
+
+    def ==(other)
+      name == other.name &&
+        path == other.path
     end
   end
 end

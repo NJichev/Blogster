@@ -6,16 +6,16 @@
 require 'fileutils'
 
 user_path = ENV['PWD']
-page, template_name, _ = ARGV
+page, template_name, = ARGV
 
-unless File.exists?("#{user_path}/.blogster")
-  puts "You need to be in a blogster file structure."
-  puts "Run the new command first."
+unless File.exist?("#{user_path}/.blogster")
+  puts 'You need to be in a blogster file structure.'
+  puts 'Run the new command first.'
   exit
 end
 
 if ARGV.size < 2
-  puts "You need to supply two arguments - a page and a template."
+  puts 'You need to supply two arguments - a page and a template.'
   exit
 end
 
@@ -23,17 +23,17 @@ template_path = File.join(user_path, "_#{page.downcase}")
 template = File.join(template_path.downcase, "#{template_name}.md".downcase)
 
 puts "Creating #{template_path} folder."
-FileUtils::mkdir_p template_path
+FileUtils.mkdir_p template_path
 
-if File.exists?(template)
-  puts "This template already exists."
-  puts "Delete the old one first and then run the command again."
+if File.exist?(template)
+  puts 'This template already exists.'
+  puts 'Delete the old one first and then run the command again.'
   exit
 end
 
 puts "Generating markdown file: #{template}"
 File.open(template, 'w') do |file|
-  time = Time.now.strftime("%d/%m/%Y at %I:%M%p")
+  time = Time.now.strftime('%d/%m/%Y at %I:%M%p')
 
   puts "Published on #{time}"
   file.puts <<-PAGE_TEMPLATE
@@ -54,4 +54,4 @@ File.open(template, 'w') do |file|
   PAGE_TEMPLATE
 end
 
-puts "Finished."
+puts 'Finished.'

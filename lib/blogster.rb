@@ -29,7 +29,6 @@ module Blogster
     end
 
     def create_page_templates(page)
-      layout = layout
       templates.each(page) do |template|
         Class.new(controller) do
           get "/#{page}/#{template.name}" do

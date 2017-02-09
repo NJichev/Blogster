@@ -4,8 +4,8 @@ require_relative '../lib/blogster.rb'
 
 user_path = ENV['PWD']
 
-unless File.exists?("#{user_path}/.blogster")
-  puts "You need to be inside a project root directory."
+unless File.exist?("#{user_path}/.blogster")
+  puts 'You need to be inside a project root directory.'
   exit
 end
 
