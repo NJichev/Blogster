@@ -25,17 +25,35 @@ template = File.join(template_path.downcase, "#{template_name}.md".downcase)
 puts "Creating #{template_path} folder."
 FileUtils::mkdir_p template_path
 
+if File.exists?(template)
+  puts "This template already exists."
+  puts "Delete the old one first and then run the command again."
+  exit
+end
+
 puts "Generating markdown file: #{template}"
 File.open(template, 'w') do |file|
   time = Time.now.strftime("%d/%m/%Y at %I:%M%p")
 
   puts "Published on #{time}"
+  file.puts <<-PAGE_TEMPLATE
+# #{page.capitalize}
 
-  file.puts "# #{page.capitalize}"
-  file.puts ""
-  file.puts "## #{template_name.capitalize}"
-  file.puts ""
-  file.puts "*published on #{time}*"
+## #{template_name.capitalize}
+
+*published on #{time}*
+
+1. Template generated.
+2. **You can edit this markdown however you want.**
+3. You can inline HTML and all the cool stuff you get with markdown files.
+
+**Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.**
+
+
+*Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.*
+
+And a picture of my dog.
+  PAGE_TEMPLATE
 end
 
 puts "Finished."

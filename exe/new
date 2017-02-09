@@ -3,7 +3,7 @@ require 'fileutils'
 user_path = ENV['PWD']
 project_name = ARGV.first
 root = File.dirname(__dir__)
-template_path = File.join(root, 'template_folder/.')
+template_path = File.join(root, 'template_folder', '.')
 
 if ARGV.size < 1
   puts "You must run new command with a file argument."
