@@ -2,4 +2,10 @@
 # It will mount the dynamically created controllers
 # in our app.
 # This is achieved with inheritance callback.
-Router = Sinatra.new
+class Router < Sinatra::Base
+  set :root, ENV['PWD']
+  set :views, proc { File.join(root, 'layout') }
+
+  set :port, 5000
+  set :bind, '0.0.0.0'
+end

@@ -4,5 +4,8 @@ class ApplicationController < Sinatra::Base
     super
   end
 
+  set :root, ENV['PWD']
+  set :views, proc { File.join(root, 'layout') }
+
   enable :logging
 end

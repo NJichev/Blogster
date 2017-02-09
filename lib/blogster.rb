@@ -1,5 +1,6 @@
 require 'sinatra/base'
 require 'rdiscount'
+require 'slim'
 
 require_relative 'blogster/version'
 require_relative 'blogster/templates'
@@ -28,11 +29,13 @@ module Blogster
     end
 
     def create_page_templates(page)
-      p page
+      layout = layout
       templates.each(page) do |template|
         Class.new(controller) do
           get "/#{page}/#{template.name}" do
-            markdown template.file
+            slim :layout do
+              markdown template.file, layout: false
+            end
           end
         end
       end
