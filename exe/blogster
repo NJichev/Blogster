@@ -1,0 +1,99 @@
+#!/usr/bin/env ruby
+
+require_relative '../lib/blogster.rb'
+require 'fileutils'
+
+user_path = ENV['PWD']
+command = ARGV.first
+
+
+if command == 'run'
+  unless File.exist?("#{user_path}/.blogster")
+    puts 'You need to be inside a project root directory.'
+    exit
+  end
+
+  sub_directories = Dir['*/'].map { |file| File.join(user_path, file) }
+  parsed_files = Blogster::TemplatesParser.new(sub_directories)
+  templates = parsed_files.to_templates
+
+  Blogster.create(templates)
+  Blogster.run!
+elsif command == 'generate'
+
+  page = ARGV[1]
+  template_name = ARGV[2]
+
+  unless File.exist?("#{user_path}/.blogster")
+    puts 'You need to be in a blogster file structure.'
+    puts 'Run the new command first.'
+    exit
+  end
+
+  if ARGV.size < 3
+    puts 'You need to supply two arguments - a page and a template.'
+    exit
+  end
+
+  template_path = File.join(user_path, "_#{page.downcase}")
+  template = File.join(template_path.downcase, "#{template_name}.md".downcase)
+
+  puts "Creating #{template_path} folder."
+  FileUtils.mkdir_p template_path
+
+  if File.exist?(template)
+    puts 'This template already exists.'
+    puts 'Delete the old one first and then run the command again.'
+    exit
+  end
+
+  puts "Generating markdown file: #{template}"
+  File.open(template, 'w') do |file|
+    time = Time.now.strftime('%d/%m/%Y at %I:%M%p')
+
+    puts "Published on #{time}"
+    file.puts <<-PAGE_TEMPLATE
+# #{page.capitalize}
+
+## #{template_name.capitalize}
+
+*published on #{time}*
+
+1. Template generated.
+2. **You can edit this markdown however you want.**
+3. You can inline HTML and all the cool stuff you get with markdown files.
+
+**Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.**
+
+
+*Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.*
+  PAGE_TEMPLATE
+  end
+
+  puts 'Finished.'
+elsif command == 'new'
+
+  project_name = ARGV.second
+  root = File.dirname(__dir__)
+  template_path = File.join(root, 'template_folder', '.')
+
+  if ARGV.size < 2
+    puts 'You must run new command with an app_name argument.'
+    puts 'In which the project will be generated.'
+    exit
+  end
+
+  project_path = File.join(user_path, project_name)
+
+  puts 'Creating new blogster project...'
+
+  puts "Generating project's path."
+  FileUtils.mkdir_p(project_path)
+
+  puts 'Generating project templates.'
+  FileUtils.cp_r(template_path, project_path)
+
+  puts 'Finished.'
+else
+  puts "You must construct addition pylons. I mean you must add additional arguments"
+end
