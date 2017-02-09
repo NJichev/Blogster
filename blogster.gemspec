@@ -37,5 +37,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'pry', '~> 0.10'
   spec.add_development_dependency 'pry-doc', '~> 0.10'
   spec.add_development_dependency 'rdiscount', '~> 2.2'
-  spec.add_development_dependency 'slim', '~> 3.0.7'
+  spec.add_development_dependency 'slim', '~> 3.0'
 end
